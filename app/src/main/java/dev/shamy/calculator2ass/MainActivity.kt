@@ -2,145 +2,116 @@ package dev.shamy.calculator2ass
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import android.widget.TextView
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
+import dev.shamy.calculator2ass.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    lateinit var etFirsNum:TextInputEditText
-    lateinit var tilFirsNum:TextInputLayout
-    lateinit var etSecNum:TextInputEditText
-    lateinit var tilSecNum:TextInputLayout
-    lateinit var btnAddMe:Button
-    lateinit var btnSubMe:Button
-    lateinit var btnModuMe:Button
-    lateinit var btnDivMe:Button
-    lateinit var tvAnsMe:TextView
+   lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        etFirsNum=findViewById(R.id.etFirsNum)
-        tilFirsNum=findViewById(R.id.tilFirsNum)
-        etSecNum=findViewById(R.id.etSecNum)
-        tilSecNum=findViewById(R.id.tilSecNum)
-        btnAddMe=findViewById(R.id.btnAddMe)
-        btnSubMe=findViewById(R.id.btnSubMe)
-        btnModuMe=findViewById(R.id.btnModuMe)
-        btnDivMe=findViewById(R.id.btnDivMe)
-        tvAnsMe=findViewById(R.id.tvAnsMe)
+        var binding = ActivityMainBinding.inflate(layoutInflater)   //used binding
+        setContentView(binding.root)
 
-        btnAddMe.setOnClickListener {
-            var a=etFirsNum.text.toString().toDouble()
-            var b=etSecNum.text.toString().toDouble()
-//            if (etFirsNum.isBlank())
 
-            add(a.toString().toDouble(),b.toString().toDouble())
-            if (etFirsNum.toString().isBlank()){
-                tilFirsNum.error="Enter a number"
+    }
+        fun handleClicks() {
+
+            binding.btnAddMe.setOnClickListener {
 
 
             }
-            if (etSecNum.toString().isBlank()){
-                tilSecNum.error="Enter a number"
+            binding.btnSubMe.setOnClickListener {
+
+            }
+            binding.btnDivMe.setOnClickListener {
+
+
             }
 
 
-
-//            if (){
-//                tilFirsNum="Enter a first Number"
-//            }
+        binding.btnModuMe.setOnClickListener {
 
 
         }
-        btnSubMe.setOnClickListener {
-            var a=etFirsNum.text.toString().toDouble()
-            var b=etSecNum.text.toString().toDouble()
-            if (etFirsNum.toString().isBlank()){
-                tilFirsNum.error="Enter a number"
+    }
 
-
-            }
-            if (etSecNum.toString().isBlank()){
-                tilSecNum.error="Enter a number"
-            }
-            subb(a.toString().toDouble(),b.toString().toDouble())
+    data class Inputs (var num1: Double,var num2: Double)
+    fun obtaininputs():Inputs?{
+        var num1 =binding.etFirsNum.text.toString().toDouble()
+        var num2=binding.etSecNum.toString().toDouble()
+        var error=false
+        if (num1.isBlank()){
+            binding.tilFirsNum.error="Enter a number"
+            error=true
 
         }
-        btnDivMe.setOnClickListener {
-            var a=etFirsNum.text.toString().toDouble()
-            var b=etSecNum.text.toString().toDouble()
-            divide(a.toString().toDouble(),b.toString().toDouble())
-            if (etFirsNum.toString().isBlank()){
-                tilFirsNum.error="Enter a number"
-
-
-            }
-            if (etSecNum.toString().isBlank()){
-                tilSecNum.error="Enter a number"
-            }
-        }
-        btnModuMe.setOnClickListener {
-            var a =etFirsNum.text.toString().toDouble()
-            var b=etSecNum.text.toString().toDouble()
-            moduling(a.toString().toDouble(),b.toString().toDouble())
-            if (etFirsNum.toString().isBlank()){
-                tilFirsNum.error="Enter a number"
-
-
-            }
-            if (etSecNum.toString().isBlank()){
-                tilSecNum.error="Enter a number"
-            }
+        if (num2.isBlank()){
+            binding.tilSecNum.error="Enter a number"
+            error=true
 
         }
-
+        if (!error) {
+            return  Inputs(num1.toDouble(),num2.toDouble())
+        }
+        return null
     }
     //create functon and pass in two parameters each double
     //create variable to hold the two inputs
     //create variable for adding the two of them
     //display answer in the tv
-    fun add(a:Double,b:Double){
-        var a=etFirsNum.text.toString().toDouble()
-        var b=etSecNum.text.toString().toDouble()
-//        if (a.isBl)
-        var adds=a+b
-        tvAnsMe.text=adds.toString()
+    fun add(inputs: Inputs?){
 
-    }
-    fun subb(a:Double,b: Double){
-        var a=etFirsNum.text.toString().toDouble()
-        var b=etSecNum.text.toString().toDouble()
-        var subtract=a-b
-        tvAnsMe.text=subtract.toString()
-
-    }
-    fun divide(number1:Double,Number2: Double){
-        var number1=etFirsNum.text.toString().toDouble()
-        var number2=etSecNum.text.toString().toDouble()
-        var dividing=number1/number2
-        tvAnsMe.text=dividing.toString()
-
-
-    }
-    fun moduling(a:Double,b: Double){
-        var a =etFirsNum.text.toString().toDouble()
-        var b=etSecNum.text.toString().toDouble()
-        var modulus=a%b
-        tvAnsMe.text=modulus.toString()
-        if (a.toString().isBlank()){
-            tilFirsNum.error="Enter a number"
+      if (inputs!=null){
+          displayResult(inputs.num1+inputs.num2)
         }
 
-        if (b.toString().isBlank()){
-            tilSecNum.error="Enter a number"
+
+    }
+    fun subb(inputs: Inputs?){
+       if(inputs!=null){
+           displayResult(inputs.num1-inputs.num2)
+
+       }
+
+    }
+    fun divide(inputs:Inputs?){
+        if (inputs!=null){
+            displayResult(inputs.num1/inputs.num2)
+        }
+//        var number1=etFirsNum.text.toString().toDouble()
+//        var number2=etSecNum.text.toString().toDouble()
+//        var dividing=number1/number2
+//        tvAnsMe.text=dividing.toString()
+
+
+    }
+    fun moduling(inputs:Inputs?){
+        if(inputs!=null){
+          displayResult(inputs.num1%inputs.num2)
         }
 
 
 
 
+
+
     }
+fun displayResult(result: Double){
+    binding.tvAnsMe.text=result.toString()
 
 
 }
+
+
+
+}
+
+private fun Double.isBlank(): Boolean {
+return true
+}
+
+
+//private fun Double.isBlank(): Boolean {}
+
+
+
